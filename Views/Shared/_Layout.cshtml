@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yummy Cookie - Tiệm bánh hạnh phúc</title>
+    <link rel="icon" type="image/x-icon" href="~/Areas/Admin/AssetsAdmin/dist/img/logoSquare.png">
+    <link href="~/Content/css/barfiller.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/elegant-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/flaticon.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/magnific-popup.css" rel="stylesheet" />
+    <link href="~/Content/css/nice-select.css" rel="stylesheet" />
+    <link href="~/Content/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/Content/css/slicknav.min.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <a href="~/Content/fonts/ElegantIcons.eot"></a>
+    <a href="~/Content/fonts/ElegantIcons.ttf"></a>
+    <a href="~/Content/fonts/ElegantIcons.woff"></a>
+    <a href="~/Content/fonts/Flaticon.eot"></a>
+    <a href="~/Content/fonts/Flaticon.ttf"></a>
+    <a href="~/Content/fonts/Flaticon.woff"></a>
+    <a href="~/Content/fonts/fontawesome-webfont.eot"></a>
+    <a href="~/Content/fonts/fontawesome-webfont.woff"></a>
+    <a href="~/Content/fonts/fontawesome-webfont.woff2"></a>
+    <a href="~/Content/fonts/FontAwesome.otf"></a>
+    <a href="~/Content/fonts/fontawesome-webfont.ttf"></a>
+    <link href="~/Content/css/more.css" rel="stylesheet" />
+    <link href="~/Content/css/logoff.css" rel="stylesheet" />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    <div id="id01" class="modal">
+        <form class="modal-content animate" method="post">
+            @Html.Partial("Logoff")
+        </form>
+    </div>
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__cart">
+            <div class="offcanvas__cart__links">
+                <a href="#" class="search-switch"><img src="~/Content/img/icon/search.png" alt=""></a>
+                <a href="@Url.Action("Index","WishList")"><img src="~/Content/img/icon/heart.png" alt=""></a>
+            </div>
+            <div class="offcanvas__cart__item">
+                <a href="@Url.Action("Index","ShoppingCart")"><img src="~/Content/img/icon/cart.png" alt=""> <span>0</span></a>
+                <div class="cart__price">Cart: <span>$0.00</span></div>
+            </div>
+        </div>
+        <div class="offcanvas__logo">
+            <a href="@Url.Action("Index","Home")"><img src="~/Content/img/logo-mini.png" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__option">
+            <ul>
+                <li>
+                    VN <span class="arrow_carrot-down"></span>
+                    <ul>
+                        <li>VN</li>
+                        <li>USD</li>
+                    </ul>
+                </li>
+                @{
+                    if (Session["UserName"] != null)
+                    {
+                        if (Session["Role"].ToString() == "Administrator")
+                        {
+                            <li>@Html.ActionLink("Trang Quản Trị", "Index", "Admin/ProductManager")</li>
+                            <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink(Session["UserName"].ToString(), "Index", "Home")</li>
+                            <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Đăng nhập", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Đăng ký", "Register", "Account")</li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="header__top__inner">
+                            <div class="header__top__left">
+                                <ul>
+                                    <li>
+                                        VN <span class="arrow_carrot-down"></span>
+                                        <ul>
+                                            <li>VN</li>
+                                            <li>USD</li>
+                                        </ul>
+                                    </li>
+                                    @{
+                                        if (Session["UserName"] != null)
+                                        {
+                                            if (Session["Role"].ToString() == "Administrator")
+                                            {
+                                                <li>@Html.ActionLink("Trang Quản Trị", "Index", "Admin/ProductManager")</li>
+                                                <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
+
+                                            }
+                                            else
+                                            {
+                                                <li>@Html.ActionLink(Session["UserName"].ToString(), "Index", "Home")</li>
+                                                <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>@Html.ActionLink("Đăng nhập", "Login", "Account")</li>
+                                            <li>@Html.ActionLink("Đăng ký", "Register", "Account")</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <div class="header__logo">
+                                <a href="@Url.Action("Index","Home")"><img src="~/Content/img/logo-mini.png" alt=""></a>
+                            </div>
+                            <div class="header__top__right">
+                                <div class="header__top__right__links">
+                                    <a href="#" class="search-switch"><img src="~/Content/img/icon/search.png" alt=""></a>
+                                    <a href="@Url.Action("Index","WishList")"><img src="~/Content/img/icon/heart.png" alt=""></a>
+                                </div>
+                                <div class="header__top__right__cart">
+                                    <a href="@Url.Action("Index", "ShoppingCart")"><img src="~/Content/img/icon/cart.png" alt=""> <span>0</span></a>
+                                    <div class="cart__price">Cart: <span>0.00 VNĐ</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="canvas__open"><i class="fa fa-bars"></i></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Index") ? "active" : "")">
+                                @Html.ActionLink("Trang chủ", "Index", "Home")
+                            </li>
+                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Shop") ? "active" : "")">
+                                @Html.ActionLink("Sản phẩm", "Index", "Shop")
+                            </li>
+                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "About") ? "active" : "")">
+                                @Html.ActionLink("Giới thiệu", "Index", "About")
+                            </li>
+                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Contact") ? "active" : "")">
+                                @Html.ActionLink("Liên hệ", "Index", "Contact")
+                            </li>
+                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Blog") ? "active" : "")">
+                                @Html.ActionLink("Bài viết", "Index", "Blog")
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+    <div class="">
+        @RenderBody()
+    </div>
+    <!-- Footer Section Begin -->
+    <footer class="footer set-bg" data-setbg="../../Content/img/footer-bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Giờ làm việc</h6>
+                        <ul>
+                            <li>Thứ 2 - Thứ 6: 08:00 am – 08:30 pm</li>
+                            <li>Thứ 7: 10:00 am – 16:30 pm</li>
+                            <li>Chủ nhật: 10:00 am – 16:30 pm</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="~/Content/img/logo-mini.png" alt="" /></a>
+                        </div>
+                        <p>
+                            Chúng tôi tại tiệm bánh Yummy Cookie rất vui được chào đón bạn! Với tình yêu và đam mê dành cho nghệ thuật làm bánh, chúng tôi tự hào mang đến những chiếc bánh ngọt thơm ngon và hấp dẫn nhất.
+                        </p>
+                        <div class="footer__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer__newslatter">
+                        <h6>Đăng ký</h6>
+                        <p>Nhận các bản cập nhật và ưu đãi mới nhất</p>
+                        <form action="#">
+                            <input type="text" placeholder="Email" />
+                            <button type="submit"><i class="fa fa-send-o"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <p class="copyright__text text-white">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                            All rights reserved | Yummy Cookie - Tiệm bánh hạnh phúc <i class="fa fa-heart" aria-hidden="true"></i>
+                        </p>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="copyright__widget">
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                                <li><a href="#">Site Map</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here....." />
+            </form>
+        </div>
+    </div>
+    <!-- Footer Section End -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/js/jquery.barfiller.js"></script>
+    <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Content/js/jquery.nice-select.min.js"></script>
+    <script src="~/Content/js/jquery.nicescroll.min.js"></script>
+    <script src="~/Content/js/jquery.slicknav.js"></script>
+    <script src="~/Content/js/owl.carousel.min.js"></script>
+    <script src="~/Content/js/main.js"></script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

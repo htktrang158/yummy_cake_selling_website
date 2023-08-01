@@ -1,0 +1,42 @@
+﻿@model PagedList.IPagedList<WebBanBanhConnection.PRODUCT>
+@using PagedList.Mvc
+@using WebsiteCakeNew.Models.BUS
+@{
+    ViewBag.Title = "Shop";
+}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="breadcrumb__text">
+                    <h2>Sản phẩm</h2>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="breadcrumb__links">
+                    @Html.ActionLink("Trang chủ", "Index", "Home")
+                    <span>Sản phẩm</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Shop Section Begin -->
+<section class="shop spad">
+    <div class="container">
+        <div class="shop__option">
+            <div class="row">
+                <div class="col-lg-7 col-md-7">
+                    @Html.Partial("_Category", WebsiteCakeNew.Models.BUS.CategoryBUS.DanhSach())
+                </div>
+                @Html.Partial("_Sort")
+            </div>
+        </div>
+        <div id="product-list-container">
+            @Html.Partial("_ProductList", Model)
+        </div>
+</section>
+<!-- Shop Section End -->

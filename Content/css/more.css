@@ -1,0 +1,37 @@
+﻿.register-link {
+    color: #007bff; /* Màu mặc định của liên kết */
+    text-decoration: none; /* Loại bỏ gạch chân của liên kết */
+}
+
+.register-link:hover {
+        color: #0056b3; /* Màu khi hover vào liên kết */
+}
+
+.word-wrap {
+    white-space: nowrap;
+}
+.list-danger ul {
+}
+.list-danger ul li {
+   list-style: none !important;
+   margin-top: 6px;
+   margin-bottom: 8px;
+   font-size: 14px;
+   opacity: 0.8;
+}
+.list-danger span {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+.login-trigger {
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(to bottom right, #B05574, #F87E7B);
+    padding: 15px 30px;
+    border-radius: 30px;
+    position: relative;
+    top: 50%;
+}
+

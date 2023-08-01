@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="breadcrumb__text">
+                    <h2>Giới thiệu</h2>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="breadcrumb__links">
+                    @Html.ActionLink("Trang chủ", "Index", "Home")
+                    <span>Giới thiệu</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- About Section Begin -->
+<section class="about spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="about__video set-bg" data-setbg="../../Content/img/about-video.jpg">
+                    <a href="https://www.youtube.com/watch?v=ad5_MXzibSM&pp=ygUPYWJvdXQgY2FrZSBzaG9w"
+                       class="play-btn video-popup"><i class="fa fa-play"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="about__text">
+                    <div class="section-title">
+                        <span>Tổng quan về cửa hàng <br>Yummy Cookie</span>
+                        <h2>Bánh ngọt của nhà Yummy Cookie</h2>
+                    </div>
+                    <p>
+                        Yummy Cookie là một cửa hàng đặc biệt chuyên về cookie, chúng tôi tự hào mang đến cho bạn những trải nghiệm ẩm thực đặc biệt và hương vị tuyệt vời. Với niềm đam mê và tình yêu với nghệ thuật nướng bánh, chúng tôi tạo ra những chiếc cookie thủ công độc đáo và không thể cưỡng lại.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="about__bar">
+                    <div class="about__bar__item">
+                        <p>Đẹp mắt</p>
+                        <div id="bar1" class="barfiller">
+                            <div class="tipWrap"><span class="tip"></span></div>
+                            <span class="fill" data-percentage="95"></span>
+                        </div>
+                    </div>
+                    <div class="about__bar__item">
+                        <p>Hương vị</p>
+                        <div id="bar2" class="barfiller">
+                            <div class="tipWrap"><span class="tip"></span></div>
+                            <span class="fill" data-percentage="80"></span>
+                        </div>
+                    </div>
+                    <div class="about__bar__item">
+                        <p>Thương hiệu</p>
+                        <div id="bar3" class="barfiller">
+                            <div class="tipWrap"><span class="tip"></span></div>
+                            <span class="fill" data-percentage="90"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
+<!-- Testimonial Section Begin -->
+<section class="testimonial spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-title">
+                    <span>Nhận xét</span>
+                    <h2>Đánh giá của khách hàng</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="testimonial__slider owl-carousel">
+                <div class="col-lg-6">
+                    <div class="testimonial__item">
+                        <div class="testimonial__author">
+                            <div class="testimonial__author__pic">
+                                <img src="~/Content/img/testimonial/ta-1.jpg" alt="">
+                            </div>
+                            <div class="testimonial__author__text">
+                                <h5>Bảo Lê</h5>
+                                <span>Ninh Thuận</span>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star-half_alt"></span>
+                        </div>
+                        <p>
+                            "Tiệm bánh này thật tuyệt vời! Tôi đã thử nhiều loại bánh ở đây và không thể không khen ngợi sự tài năng và khéo léo của đầu bếp. Bánh ngọt mềm mịn và hương vị thật tuyệt. Chắc chắn tôi sẽ quay lại!"
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonial__item">
+                        <div class="testimonial__author">
+                            <div class="testimonial__author__pic">
+                                <img src="~/Content/img/testimonial/ta-2.jpg" alt="">
+                            </div>
+                            <div class="testimonial__author__text">
+                                <h5>Thanh Duy</h5>
+                                <span>Cần Thơ</span>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star-half_alt"></span>
+                        </div>
+                        <p>
+                            "Tôi vô cùng hài lòng với dịch vụ và bánh của tiệm. Nhân viên thân thiện và nhiệt tình. Bánh ở đây rất đa dạng với nhiều hương vị thú vị. Mỗi lần tôi đến đây, tôi luôn có cảm giác như đang trở về với nhà."
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonial__item">
+                        <div class="testimonial__author">
+                            <div class="testimonial__author__pic">
+                                <img src="~/Content/img/testimonial/ta-1.jpg" alt="">
+                            </div>
+                            <div class="testimonial__author__text">
+                                <h5>Minh Hạnh</h5>
+                                <span>Quy Nhơn</span>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star-half_alt"></span>
+                        </div>
+                        <p>
+                            "Tiệm bánh này thật tuyệt vời! Tôi đã thử nhiều loại bánh ở đây và không thể không khen ngợi sự tài năng và khéo léo của đầu bếp. Bánh ngọt mềm mịn và hương vị thật tuyệt. Chắc chắn tôi sẽ quay lại!"
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonial__item">
+                        <div class="testimonial__author">
+                            <div class="testimonial__author__pic">
+                                <img src="~/Content/img/testimonial/ta-2.jpg" alt="">
+                            </div>
+                            <div class="testimonial__author__text">
+                                <h5>Nguyễn Thị Trang</h5>
+                                <span>Gia Lai</span>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star-half_alt"></span>
+                        </div>
+                        <p>
+                            "Tôi vô cùng hài lòng với dịch vụ và bánh của tiệm. Nhân viên thân thiện và nhiệt tình. Bánh ở đây rất đa dạng với nhiều hương vị thú vị. Mỗi lần tôi đến đây, tôi luôn có cảm giác như đang trở về với nhà."
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonial__item">
+                        <div class="testimonial__author">
+                            <div class="testimonial__author__pic">
+                                <img src="~/Content/img/testimonial/ta-2.jpg" alt="">
+                            </div>
+                            <div class="testimonial__author__text">
+                                <h5>Nguyễn Thị Kim</h5>
+                                <span>TP.Hồ Chí Minh</span>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star-half_alt"></span>
+                        </div>
+                        <p>
+                            "Tôi đã có kinh nghiệm tuyệt vời khi mua bánh ở đây. Nhân viên tiếp đãi rất nhanh nhẹn và chu đáo. Bánh ngọt ở đây rất tươi mới và thơm ngon. Tôi rất ấn tượng với sự chất lượng của sản phẩm và dịch vụ của tiệm."
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonial__item">
+                        <div class="testimonial__author">
+                            <div class="testimonial__author__pic">
+                                <img src="~/Content/img/testimonial/ta-1.jpg" alt="">
+                            </div>
+                            <div class="testimonial__author__text">
+                                <h5>Nguyễn Thị Trang</h5>
+                                <span>Hà Nội</span>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star"></span>
+                            <span class="icon_star-half_alt"></span>
+                        </div>
+                        <p>
+                            "Tôi vô cùng hài lòng với dịch vụ và bánh của tiệm. Nhân viên thân thiện và nhiệt tình. Bánh ở đây rất đa dạng với nhiều hương vị thú vị. Mỗi lần tôi đến đây, tôi luôn có cảm giác như đang trở về với nhà."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Testimonial Section End -->
