@@ -5,15 +5,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanBanhConnection;
+using WebsiteCakeNew.App_Start;
 using WebsiteCakeNew.Models.BUS;
 
 namespace WebsiteCakeNew.Areas.Admin.Controllers
 {
+    [RoleUser]
     public class ProductManagerController : Controller
     {
         // GET: Admin/ProductManager
         public ActionResult Index()
         {
+            ViewBag.SuccessMessage = TempData["SuccessMessage"] as string;
             var ds = ShopBUS.DanhSach();
             return View(ds);
         }
@@ -32,16 +35,54 @@ namespace WebsiteCakeNew.Areas.Admin.Controllers
 
         // POST: Admin/ProductManager/Create
         [HttpPost]
-        public ActionResult Create(PRODUCT p)
+        public ActionResult Create(PRODUCT p, string SelectedCategoryIDs, string SelectedTagIDs)
         {
             try
             {
-                // TODO: Add insert logic here
+                string[] selectedCategoryIDArray = SelectedCategoryIDs.Split(',');
+                string[] selectedTagIDArray = SelectedTagIDs.Split(',');
+                // TODO: Lưu thông tin sản phẩm vào bảng Product
                 ShopBUS.AddProduct(p);
+
+                // TODO: Lấy ID của sản phẩm đã tạo
+                int createdProductID = p.ProductID;
+                if(selectedCategoryIDArray[0] != "")
+                {
+                    foreach (var categoryID in selectedCategoryIDArray)
+                    {
+                        int categoryId = Convert.ToInt32(categoryID);
+                        PRODUCT_CATEGORY productCategory = new PRODUCT_CATEGORY
+                        {
+                            ProductID = createdProductID,
+                            CategoryID = categoryId
+                        };
+
+                        // TODO: Lưu bản ghi vào bảng Product_category
+                        Product_CategoryBUS.AddProductCategory(productCategory);
+                    }
+                }
+                // TODO: Thêm các bản ghi vào bảng Product_category
+                if(selectedTagIDArray[0] != "")
+                {
+                    foreach (var tagID in selectedTagIDArray)
+                    {
+                        int tagId = Convert.ToInt32(tagID);
+                        PRODUCT_TAG productTag = new PRODUCT_TAG
+                        {
+                            ProductID = createdProductID,
+                            TagID = tagId
+                        };
+
+                        // TODO: Lưu bản ghi vào bảng Product_category
+                        Product_TagBUS.AddProductTag(productTag);
+                    }
+                }
+                TempData["SuccessMessage"] = "Thêm sản phẩm thành công";
                 return RedirectToAction("Index");
             }
             catch
             {
+                ViewBag.Error = "Thêm sản phẩm thất bại";
                 return View();
             }
         }
@@ -71,17 +112,53 @@ namespace WebsiteCakeNew.Areas.Admin.Controllers
 
         // POST: Admin/ProductManager/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PRODUCT p)
+        public ActionResult Edit(int id, PRODUCT p, string SelectedCategoryIDs, string SelectedTagIDs)
         {
             try
             {
-                // TODO: Add update logic here
+                if(SelectedCategoryIDs != "")
+                {
+                    var selectedCategoryIDArray = SelectedCategoryIDs.Split(',').Select(int.Parse).ToList();
+                    Product_CategoryBUS.DeleteCate(id);
+                    foreach (var categoryID in selectedCategoryIDArray)
+                    {
+                        int categoryId = Convert.ToInt32(categoryID);
+                        PRODUCT_CATEGORY productCategory = new PRODUCT_CATEGORY
+                        {
+                            ProductID = id,
+                            CategoryID = categoryId
+                        };
+
+                        // TODO: Lưu bản ghi vào bảng Product_category
+                        Product_CategoryBUS.AddProductCategory(productCategory);
+                    }
+                }
+                if(SelectedTagIDs != "")
+                {
+                var selectedTagIDArray = SelectedTagIDs.Split(',').Select(int.Parse).ToList();
+                Product_TagBUS.DeleteTag(id);
+                foreach (var tagID in selectedTagIDArray)
+                {
+                    int tagId = Convert.ToInt32(tagID);
+                    PRODUCT_TAG productTag = new PRODUCT_TAG
+                    {
+                        ProductID = id,
+                        TagID = tagId
+                    };
+
+                    // TODO: Lưu bản ghi vào bảng Product_category
+                    Product_TagBUS.AddProductTag(productTag);
+                }
+                }
                 ShopBUS.UpdateProduct(id, p);
+                TempData["SuccessMessage"] = "Lưu thay đổi thành công";
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                ViewBag.Error = "Lưu thay đổi sản phẩm thất bại";
+                var db = ShopBUS.ChiTiet(id);
+                return View(db);
             }
         }
 
@@ -99,11 +176,16 @@ namespace WebsiteCakeNew.Areas.Admin.Controllers
             try
             {
                 // TODO: Add delete logic here
+                Product_CategoryBUS.DeleteCate(id);
+                Product_TagBUS.DeleteTag(id);
+                CartItemBUS.DeleteByProductID(id);
                 ShopBUS.DeleteProduct(id);
+                TempData["SuccessMessage"] = "Sản phẩm đã xoá thành công";
                 return RedirectToAction("Index");
             }
             catch
             {
+                ViewBag.Error = "Xoá sản phẩm không thành công";
                 return View();
             }
         }

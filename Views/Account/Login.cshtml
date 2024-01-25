@@ -3,8 +3,12 @@
 @{
     ViewBag.Title = "Log in";
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+}
 <div class="container d-flex flex-column" style="padding-top: 3em; padding-bottom: 5em">
-    <h2><strong>Đăng nhập</strong></h2>
+    <h2 style="color: black !important "><strong>Đăng nhập</strong></h2>
     <div class="row">
         <div class="col-md-6" style="padding:0">
             <section id="loginForm">
@@ -13,10 +17,10 @@
                     @Html.AntiForgeryToken()
                     <br />
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label word-wrap" })
+                        @Html.LabelFor(m => m.UsernameOrEmail, new { @class = "col-md-2 control-label word-wrap" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Nhập địa chỉ email" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger list-danger" })
+                            @Html.TextBoxFor(m => m.UsernameOrEmail, new { @class = "form-control", placeholder = "Nhập địa chỉ email hoặc tên đăng nhập" })
+                            @Html.ValidationMessageFor(m => m.UsernameOrEmail, "", new { @class = "text-danger list-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            @Html.ValidationSummary(true,"", new { @class = "text-danger list-danger" })
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger list-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -86,7 +90,6 @@
         </div>
     </div>
 </div>
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

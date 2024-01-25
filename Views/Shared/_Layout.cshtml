@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using WebsiteCakeNew.Models.BUS
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,12 +32,57 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        #orderDetailModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .modal-content {
+            position: relative;
+        }
+
+        .custom-alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #ff5252;
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+            .custom-alert.show {
+                display: block;
+            }
+
+        .close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
+    @*<div id="preloder">
         <div class="loader"></div>
-    </div>
+    </div>*@
     <div id="id01" class="modal">
         <form class="modal-content animate" method="post">
             @Html.Partial("Logoff")
@@ -48,37 +94,30 @@
         <div class="offcanvas__cart">
             <div class="offcanvas__cart__links">
                 <a href="#" class="search-switch"><img src="~/Content/img/icon/search.png" alt=""></a>
-                <a href="@Url.Action("Index","WishList")"><img src="~/Content/img/icon/heart.png" alt=""></a>
+                <a href="@Url.Action("Index", "WishList")"><img src="~/Content/img/icon/heart.png" alt=""></a>
             </div>
             <div class="offcanvas__cart__item">
-                <a href="@Url.Action("Index","ShoppingCart")"><img src="~/Content/img/icon/cart.png" alt=""> <span>0</span></a>
+                <a href="@Url.Action("Index", "ShoppingCart")"><img src="~/Content/img/icon/cart.png" alt=""> <span>0</span></a>
                 <div class="cart__price">Cart: <span>$0.00</span></div>
             </div>
         </div>
         <div class="offcanvas__logo">
-            <a href="@Url.Action("Index","Home")"><img src="~/Content/img/logo-mini.png" alt=""></a>
+            <a href="@Url.Action("Index", "Home")"><img src="~/Content/img/logo-mini.png" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__option">
             <ul>
-                <li>
-                    VN <span class="arrow_carrot-down"></span>
-                    <ul>
-                        <li>VN</li>
-                        <li>USD</li>
-                    </ul>
-                </li>
                 @{
                     if (Session["UserName"] != null)
                     {
                         if (Session["Role"].ToString() == "Administrator")
                         {
-                            <li>@Html.ActionLink("Trang Quản Trị", "Index", "Admin/ProductManager")</li>
+                            <li>@Html.ActionLink("Trang Quản Trị", "Index", "Admin/MainAdmin")</li>
                             <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
                         }
                         else
                         {
-                            <li>@Html.ActionLink(Session["UserName"].ToString(), "Index", "Home")</li>
+                            <li>@Html.ActionLink(Session["UserName"].ToString(), "Index", "User")</li>
                             <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
                         }
                     }
@@ -98,50 +137,50 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="header__top__inner">
+                        <div class="d-flex flex-row justify-content-sm-between align-items-center" style="height:104px">
                             <div class="header__top__left">
                                 <ul>
-                                    <li>
-                                        VN <span class="arrow_carrot-down"></span>
-                                        <ul>
-                                            <li>VN</li>
-                                            <li>USD</li>
-                                        </ul>
-                                    </li>
                                     @{
                                         if (Session["UserName"] != null)
                                         {
                                             if (Session["Role"].ToString() == "Administrator")
                                             {
-                                                <li>@Html.ActionLink("Trang Quản Trị", "Index", "Admin/ProductManager")</li>
-                                                <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
-
+                                                <li><a href="@Url.Action("Index", "Admin/MainAdmin")" class="d-flex flex-row align-items-baseline" style="gap: 8px;"><i class="fa fa-area-chart" aria-hidden="true" style="font-size: 18px;"></i> Trang Quản Trị</a></li>
+                                                <li><a onclick="document.getElementById('id01').style.display='block'" class="d-flex flex-row align-items-baseline" style="gap: 8px;"><i class="fa fa-sign-out" aria-hidden="true" style="font-size: 18px;"></i> Đăng xuất</a></li>
                                             }
                                             else
                                             {
-                                                <li>@Html.ActionLink(Session["UserName"].ToString(), "Index", "Home")</li>
-                                                <li><a onclick="document.getElementById('id01').style.display='block'">Đăng xuất</a></li>
+                                                <li><a href="@Url.Action("Index", "User")" class="d-flex flex-row align-items-baseline" style="gap: 8px;"><i class="fa fa-user" aria-hidden="true" style="font-size: 18px;"></i> @Session["UserName"].ToString()</a></li>
+
+                                                <li><a onclick="document.getElementById('id01').style.display='block'" class="d-flex flex-row align-items-baseline" style="gap: 8px;"><i class="fa fa-sign-out" aria-hidden="true" style="font-size: 18px;"></i> Đăng xuất</a></li>
                                             }
                                         }
                                         else
                                         {
-                                            <li>@Html.ActionLink("Đăng nhập", "Login", "Account")</li>
+                                            <li>
+                                                <a href="@Url.Action("Login", "Account")" class="d-flex flex-row align-items-baseline" style="gap: 12px;"><i class="fa fa-user" aria-hidden="true" style="font-size: 18px;"></i> Đăng nhập</a>
+                                            </li>
                                             <li>@Html.ActionLink("Đăng ký", "Register", "Account")</li>
                                         }
                                     }
                                 </ul>
                             </div>
-                            <div class="header__logo">
-                                <a href="@Url.Action("Index","Home")"><img src="~/Content/img/logo-mini.png" alt=""></a>
+                            <div class="">
+                                <a href="@Url.Action("Index", "Home")"><img src="~/Content/img/logo.png" alt="" style="width:240px"></a>
                             </div>
                             <div class="header__top__right">
                                 <div class="header__top__right__links">
                                     <a href="#" class="search-switch"><img src="~/Content/img/icon/search.png" alt=""></a>
-                                    <a href="@Url.Action("Index","WishList")"><img src="~/Content/img/icon/heart.png" alt=""></a>
+                                    <a href="@Url.Action("Index", "WishList")"><img src="~/Content/img/icon/heart.png" alt=""></a>
                                 </div>
+                                @{
+                                    var db = new UserBUS();
+                                    int userID = db.GetIdByUserName((string)Session["UserName"]);
+                                    var shoppingCart = ShoppingCartBUS.ViewShoppingCartWithUser(userID);
+                                }
                                 <div class="header__top__right__cart">
-                                    <a href="@Url.Action("Index", "ShoppingCart")"><img src="~/Content/img/icon/cart.png" alt=""> <span>0</span></a>
-                                    <div class="cart__price">Cart: <span>0.00 VNĐ</span></div>
+                                    <a href="@Url.Action("Index", "ShoppingCart")"><img src="~/Content/img/icon/cart.png" alt=""> <span>@(shoppingCart != null ? ShoppingCartBUS.CountItemInShoppingCart(shoppingCart.ShoppingCartID) : 0)</span></a>
+                                    <div class="cart__price"><span>@(shoppingCart != null ? shoppingCart.GrandTotal == null ? ": 0,00 VNĐ" : ": " + string.Format("{0:N0}", shoppingCart.GrandTotal) + " VNĐ" : "")</span></div>
                                 </div>
                             </div>
                         </div>
@@ -156,19 +195,19 @@
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Index") ? "active" : "")">
-                                @Html.ActionLink("Trang chủ", "Index", "Home")
+                                <a href="@Url.Action("Index", "Home")" class="d-flex flex-row align-items-baseline" style="gap: 12px;"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i> Trang chủ</a>
                             </li>
                             <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Shop") ? "active" : "")">
-                                @Html.ActionLink("Sản phẩm", "Index", "Shop")
+                                <a href="@Url.Action("Index", "Shop")" class="d-flex flex-row align-items-baseline" style="gap: 12px;"><i class="fa fa-birthday-cake" aria-hidden="true" style="font-size: 20px;"></i> Sản phẩm</a>
                             </li>
                             <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "About") ? "active" : "")">
-                                @Html.ActionLink("Giới thiệu", "Index", "About")
-                            </li>
-                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Contact") ? "active" : "")">
-                                @Html.ActionLink("Liên hệ", "Index", "Contact")
+                                <a href="@Url.Action("Index", "About")" class="d-flex flex-row align-items-baseline" style="gap: 12px;"><i class="fa fa-info" aria-hidden="true" style="font-size: 20px;"></i> Giới thiệu</a>
                             </li>
                             <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Blog") ? "active" : "")">
-                                @Html.ActionLink("Bài viết", "Index", "Blog")
+                                <a href="@Url.Action("Index", "Blog")" class="d-flex flex-row align-items-baseline" style="gap: 12px;"><i class="fa fa-book" aria-hidden="true" style="font-size: 20px;"></i> Bài viết</a>
+                            </li>
+                            <li class="@((ViewContext.RouteData.Values["controller"].ToString() == "Contact") ? "active" : "")">
+                                <a href="@Url.Action("Index", "Contact")" class="d-flex flex-row align-items-baseline" style="gap: 12px;"><i class="fa fa-phone-square" aria-hidden="true" style="font-size: 20px;"></i> Liên hệ</a>
                             </li>
                         </ul>
                     </nav>

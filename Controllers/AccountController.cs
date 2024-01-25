@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,6 +14,10 @@ using Microsoft.Owin.Security;
 using WebBanBanhConnection;
 using WebsiteCakeNew.Models;
 using WebsiteCakeNew.Models.BUS;
+using System.Net;
+using System.Net.Mail;
+using Microsoft.AspNet.Identity.EntityFramework;
+using WebsiteCakeNew.App_Start;
 
 namespace WebsiteCakeNew.Controllers
 {
@@ -24,7 +30,6 @@ namespace WebsiteCakeNew.Controllers
         public AccountController()
         {
         }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -61,6 +66,7 @@ namespace WebsiteCakeNew.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"] as string;
             return View(new LoginViewModel());
         }
 
@@ -76,13 +82,24 @@ namespace WebsiteCakeNew.Controllers
                 return View(model);
             }
             var db = new UserBUS();
-            int result = db.Login(model.Email, model.Password);
+            int result = db.Login(model.UsernameOrEmail, model.Password);
             switch (result)
             {
                 case 1:
-                    USER userSession = db.GetItem(model.Email);
+                    USER userSession = db.GetItem(model.UsernameOrEmail);
                     Session["Role"] = db.GetRoleUser(userSession.UserID);
                     Session["UserName"] = userSession.UserName;
+                    
+                    if (model.RememberMe)
+                    {
+                        FormsAuthentication.SetAuthCookie(userSession.UserName, true);
+                    }
+                    else
+                    {
+                        FormsAuthentication.SetAuthCookie(userSession.UserName, false);
+                    }
+
+                    SessionConfig.SetUser(userSession);
                     return RedirectToAction("Index","Home");
                 case 0:
                     ModelState.AddModelError("", "Mật khẩu không đúng");
@@ -139,7 +156,51 @@ namespace WebsiteCakeNew.Controllers
             }
         }
 
-        //
+        // Send Email
+        public void SendRegistrationConfirmationEmail(string userEmail)
+        {
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587; // Sử dụng 587 cho TLS hoặc 465 cho SSL
+            string smtpUsername = "htktrang158@gmail.com";
+            string smtpPassword = "lspt xnza jhlq fphj";
+            string senderEmail = "htktrang158@gmail.com";
+
+            // Tạo đối tượng SmtpClient để gửi email
+            SmtpClient smtpClient = new SmtpClient(smtpServer);
+            smtpClient.Port = smtpPort;
+            smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+            smtpClient.EnableSsl = true;
+
+            // Tạo đối tượng MailMessage để thiết lập nội dung email
+            MailMessage mailMessage = new MailMessage(senderEmail, userEmail);
+            mailMessage.Subject = "Đăng ký tài khoản thành công";
+            string body = @"
+                            <!DOCTYPE html>
+                            <html lang='vn'>
+                            <head>
+                                <meta charset='UTF-8'>
+                                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                            </head>
+                            <body>
+                                <h2>Cửa hàng Yummy Cookie</h2>
+                                <p>Tài khoản đã được đăng ký thành công</p>
+                                <p>Trân trọng,<br>Cửa hàng Yummy Cookie</p>
+                                </body>
+                                </html>
+                            ";
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = body;
+
+            try
+            {
+                smtpClient.Send(mailMessage); // Gửi email
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                Console.WriteLine("Lỗi gửi email: " + ex.Message);
+            }
+        }
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -162,28 +223,30 @@ namespace WebsiteCakeNew.Controllers
                 {
                     case 1:
                         db.SetRoleUser(model.UserName);
+                        db.CreateShoppingCart(model.UserName);
+                        SendRegistrationConfirmationEmail(model.Email);
+                        TempData["SuccessMessage"] = "Đăng ký thành công!";
                         return RedirectToAction("Login", "Account");
                     case 0:
-                        ModelState.AddModelError("", "Username đã tồn tại");
+                        ModelState.AddModelError("", "Lỗi: Username đã tồn tại");
                         return View(model);
                     case -1:
-                        ModelState.AddModelError("", "Email đã tồn tại");
+                        ModelState.AddModelError("", "Lỗi: Email đã tồn tại");
                         return View(model);
                     case -2:
-                        ModelState.AddModelError("", "Mật khâu phải có ít nhất một chữ thường, một chữ hoa và một số");
+                        ModelState.AddModelError("", "Lỗi: Mật khâu phải có ít nhất một chữ thường, một chữ hoa và một số");
                         return View(model);
                     default:
-                        ModelState.AddModelError("", "Đăng ký không thành công");
+                        ModelState.AddModelError("", "Lỗi: Đăng ký không thành công");
                         return View(model);
                 }
             }
             return View(model);
         }
+        
         [AllowAnonymous]
         public ActionResult SignOut()
         {
-            // Hiển thị pop-up xác nhận đăng xuất
-            // Sử dụng JavaScript để hiển thị pop-up, ví dụ:
             string confirmScript = "return confirm('Bạn có chắc chắn muốn đăng xuất?');";
             ViewBag.ConfirmScript = confirmScript;
 
@@ -192,10 +255,8 @@ namespace WebsiteCakeNew.Controllers
         [AllowAnonymous]
         public ActionResult ConfirmSignOut()
         {
-            // Thực hiện Session.Clear
             Session.Clear();
 
-            // Chuyển hướng đến trang chủ hoặc trang đăng nhập (tuỳ ý)
             return RedirectToAction("Index", "Home");
         }
 
@@ -427,25 +488,25 @@ namespace WebsiteCakeNew.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        if (_userManager != null)
+        //        {
+        //            _userManager.Dispose();
+        //            _userManager = null;
+        //        }
 
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
+        //        if (_signInManager != null)
+        //        {
+        //            _signInManager.Dispose();
+        //            _signInManager = null;
+        //        }
+        //    }
 
-            base.Dispose(disposing);
-        }
+        //    base.Dispose(disposing);
+        //}
 
         #region Helpers
         // Used for XSRF protection when adding external logins

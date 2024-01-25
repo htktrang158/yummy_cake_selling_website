@@ -1,31 +1,10 @@
-﻿@model IEnumerable<WebBanBanhConnection.PRODUCT>
-@{
+﻿@{
     ViewBag.Title = "Home";
 }
 <section class="hero">
     <div class="hero__slider owl-carousel">
-        <div class="hero__item set-bg" data-setbg="../../Content/img/hero/hero-1.jpg">
-            <div class="container">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="hero__text">
-                            <h2>Làm cho cuộc sống của bạn ngọt ngào hơn từng miếng một</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="hero__item set-bg" data-setbg="../../Content/img/hero/hero-2.png">
-            <div class="container">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="hero__text">
-                            <h2>Làm cho cuộc sống của bạn ngọt ngào hơn từng miếng một</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="hero__item set-bg" data-setbg="../../Content/img/hero/hero-1.jpg"></div>
+        <div class="hero__item set-bg" data-setbg="../../Content/img/hero/hero-2.png"></div>
     </div>
 </section>
 <!-- Categories Section Begin -->
@@ -33,12 +12,11 @@
     <div class="container">
         <div class="row">
             <div class="categories__slider owl-carousel">
-                <div class="categories__item">
-                    <div class="categories__item__icon">
-                        <span class="flaticon-029-cupcake-3"></span>
-                        <h5>Cupcake</h5>
-                    </div>
-                </div>
+                @foreach(var item in WebsiteCakeNew.Models.BUS.CategoryBUS.DanhSach())
+                {
+
+                }
+                
                 <div class="categories__item">
                     <div class="categories__item__icon">
                         <span class="flaticon-034-chocolate-roll"></span>
@@ -78,14 +56,14 @@
 <section class="product spad">
     <div class="container d-flex flex-column" style="gap: 32px;">
         <div class="d-flex flex-column">
-            <h2 style="text-align:center !important;"><strong><em>Sản phẩm mới</em></strong></h2>
+            <h2 style="text-align: center !important; color: black !important "><strong><em>Sản phẩm mới</em></strong></h2>
             <br />
             <div class="row">
                 @Html.Partial("_TopProduct", WebsiteCakeNew.Models.BUS.ShopBUS.TopNew())
             </div>
         </div>
         <div class="d-flex flex-column">
-            <h2 style="text-align:center !important;"><strong><em>Sản phẩm yêu thích</em></strong></h2>
+            <h2 style="text-align:center !important; color: black !important "><strong><em>Sản phẩm yêu thích</em></strong></h2>
             <br />
             <div class="row">
                 @Html.Partial("_TopProduct", WebsiteCakeNew.Models.BUS.ShopBUS.TopHot())
@@ -106,7 +84,7 @@
                             Những khoảnh khắc ngọt ngào được lưu lại làm kỷ niệm.
                         </h2>
                     </div>
-                    <h5><i class="fa fa-instagram"></i> &#64yummycookie</h5>
+                    <h5><i class="fa fa-instagram"></i><a> &#64yummycookie</a></h5>
                 </div>
             </div>
             <div class="col-lg-8">
